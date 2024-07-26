@@ -1,0 +1,55 @@
+body {
+  margin: 0 auto;
+  padding: 40px 24px;
+  box-sizing: border-box;
+  max-width: 680px;
+  width: 100%;
+  display: grid;
+  place-content: center;
+}
+
+.header {
+  padding: 40px 0;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 16px;
+}
+
+.input {
+  padding: 8px 16px;
+}
+
+.btn  {
+  padding: 8px 40px;
+}
+
+.hero {
+  padding: 40px 40px;
+  background-image: url('./images/day.jpg');
+  background-position: bottom;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.title, .temperature {
+  margin: 0;
+}
+
+.info {
+  padding-top: 40px;
+}
+
+.table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+.table th, .table td {
+  border: solid 1px;
+  padding: 8px;
+}
+
+.main {
+  display: none;
+}
