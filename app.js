@@ -39,13 +39,14 @@ const loadData = async (city) => {
     const weatherData = await getJSON(`https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current=temperature_2m,is_day,rain,showers&daily=temperature_2m_max,temperature_2m_min&timezone=auto&forecast_days=1`)
 
     const weather = {
+      timezone: weatherData.timezone,
       temperature: weatherData.current.temperature_2m,
       unit: weatherData.daily_units.temperature_2m_max,
       tomorrowLow: weatherData.daily.temperature_2m_min,
       tomorrowHigh: weatherData.daily.temperature_2m_max,
       day: weatherData.current.is_day, // 1 or 0
     }
-    return {city: name, latitude, longitude, timezone, population, weather, country};
+    return {city: name, latitude, longitude, population, weather, country};
 
   } catch (err) {
     throw err;
@@ -56,7 +57,7 @@ const renderData = (data) => {
   title.textContent = data.city
   temp.textContent = `${data.weather.temperature}${data.weather.unit}`
   country.textContent = data.country
-  timezone.textContent = data.timezone
+  timezone.textContent = data.weather.timezone
   population.textContent = data.population
   tempLow.textContent = `${data.weather.tomorrowLow}${data.weather.unit}`
   tempHigh.textContent = `${data.weather.tomorrowHigh}${data.weather.unit}`
@@ -81,4 +82,3 @@ searchBtn.addEventListener("click", async () => {
     alert(err);
   }
 });
-
