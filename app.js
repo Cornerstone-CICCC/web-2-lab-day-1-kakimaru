@@ -11,31 +11,27 @@ const population = document.querySelector('.population')
 const tempLow = document.querySelector('.temp-low')
 const tempHigh = document.querySelector('.temp-high')
 
-const getInputCity = () => {
-  const cityName = searchInput.value;
-  return cityName;
-};
+const getCityName = () => searchInput.value;
 
-const getJSON = async function (url) {
+const getJSON = async (url) => {
   try {
     const res = await fetch(url);
     const data = await res.json();
     if (!res.ok) throw new Error(`${data.message}(${data.status})`);
-
     return data;
   } catch (err) {
     throw err;
   }
 };
 
-const loadData = async function (city) {
+const loadData = async (city) => {
   try {
     // city
     const cityData = await getJSON(
       `https://geocoding-api.open-meteo.com/v1/search?name=${city}&count=1&language=en&format=json`
     );
     const { results } = cityData;
-    if (!results) throw new Error(`Not founded`);
+    if (!results || results.length === 0) throw new Error(`Not found`);
 
     const {name, latitude, longitude, timezone, population, country } = results[0];
 
@@ -56,12 +52,12 @@ const loadData = async function (city) {
   }
 };
 
-const renderData = function(data) {
-  title.textContent = `${data.city}`
+const renderData = (data) => {
+  title.textContent = data.city
   temp.textContent = `${data.weather.temperature}${data.weather.unit}`
-  country.textContent = `${data.country}`
-  timezone.textContent = `${data.timezone}`
-  population.textContent = `${data.population}`
+  country.textContent = data.country
+  timezone.textContent = data.timezone
+  population.textContent = data.population
   tempLow.textContent = `${data.weather.tomorrowLow}${data.weather.unit}`
   tempHigh.textContent = `${data.weather.tomorrowHigh}${data.weather.unit}`
 
@@ -74,9 +70,9 @@ const renderData = function(data) {
   }
 }
 
-searchBtn.addEventListener("click", async function() {
+searchBtn.addEventListener("click", async () => {
   try {
-    const city = getInputCity();
+    const city = getCityName()
     const data = await loadData(city);
     renderData(data)
     main.style.display = 'block';
